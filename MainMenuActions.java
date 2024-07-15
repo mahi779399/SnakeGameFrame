@@ -1,8 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;  
 import java.util.Hashtable;
 
 public class MainMenuActions {
@@ -97,8 +95,6 @@ public class MainMenuActions {
                         label.setForeground(chosenColor);
                     }
                 }
-                GamePanel2 gamePanel = new StartGame().gamePanel2;
-                gamePanel.updateInitialColor(chosenColor);
             }
         }
     }

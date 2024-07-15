@@ -3,12 +3,12 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SnakeGameMainMenu implements ActionListener{
-    private JFrame mainFrame;
-    static JLabel scoreLabel;
+    private JFrame mainFrame;  
+    public static JLabel scoreLabel;
     static JButton[] buttons;
     JPanel buttonsPanel;
+    MainMenuActions menuAction;
     static Color initialColor=MainMenuActions.initialColor;
-    int highestScore=GamePanel2.highestScore;
 
     public SnakeGameMainMenu() {
         mainFrame = new JFrame();
@@ -42,8 +42,7 @@ public class SnakeGameMainMenu implements ActionListener{
         frame.setLocation(x, y);
     }
     public void addComponents() {
-        String topScoreLabel="Top Score : "+highestScore;
-        scoreLabel = new JLabel(topScoreLabel);
+        scoreLabel = new JLabel("Top Score : 0");
         Font font = scoreLabel.getFont();
         Font boldFont = new Font(font.getName(), Font.BOLD, 16);
         scoreLabel.setFont(boldFont);
@@ -54,6 +53,7 @@ public class SnakeGameMainMenu implements ActionListener{
         buttonsPanel.setLayout(new GridLayout(4, 1, 0, 5));
         buttonsPanel.setBackground(Color.BLACK);
 
+        menuAction=new MainMenuActions();
         String[] buttonLabels = {"New Game", "Level", "Theme", "About"};
         buttons = new JButton[buttonLabels.length];
         for (int i = 0; i < buttonLabels.length; i++) {
@@ -83,7 +83,6 @@ public class SnakeGameMainMenu implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton clickedButton = (JButton) e.getSource();
-        MainMenuActions menuAction=new MainMenuActions();
         for (int i = 0; i < buttons.length; i++) {
             if (clickedButton == buttons[i]) {
                 switch (i) {
@@ -104,6 +103,9 @@ public class SnakeGameMainMenu implements ActionListener{
         }
     }
 
+    public static void updateTopScoreLabel(int score) {
+        scoreLabel.setText("Top Score : " + score);
+    }
     public static void main(String[] args) {
         new SnakeGameMainMenu();
     }

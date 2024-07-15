@@ -52,23 +52,6 @@ class GamePanel2 extends JPanel implements ActionListener {
         startGame();
     }
 
-    public void updateInitialColor(Color newColor) {
-        initialColor = newColor;
-        repaint();
-    }
-
-    public void startGame() {
-        snakeLength = 3;
-        for (int i = 0; i < snakeLength; i++) {
-            snakeX[i] = 0;
-            snakeY[i] = 0;
-        }
-        placeFood();
-        running = true;
-        timer = new Timer(DELAY, this);
-        timer.start();
-    }
-
     private void setSpeed(int levelSelected) {
         switch (levelSelected) {
             case 0:
@@ -83,6 +66,23 @@ class GamePanel2 extends JPanel implements ActionListener {
         }
     }
 
+    public void startGame() {
+        snakeLength = 3;
+        for (int i = 0; i < snakeLength; i++) {
+            snakeX[i] = 0;
+            snakeY[i] = 0;
+        }
+        placeFood();
+        running = true;
+        timer = new Timer(DELAY, this);
+        timer.start();
+    }
+
+    public void placeFood() {
+        foodX = random.nextInt((int) (BOARD_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+        foodY = random.nextInt((int) (BOARD_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -95,26 +95,17 @@ class GamePanel2 extends JPanel implements ActionListener {
             g.fillOval(foodX, foodY, UNIT_SIZE, UNIT_SIZE);
 
             for (int i = 0; i < snakeLength; i++) {
-                if (i == 0) {
-                    g.setColor(initialColor);
-                } else {
-                    g.setColor(initialColor);
-                }
+                g.setColor(initialColor);
                 g.fillRect(snakeX[i], snakeY[i], UNIT_SIZE, UNIT_SIZE);
             }
 
-            g.setColor(initialColor);
+            // g.setColor(initialColor);
             g.setFont(new Font("Arial", Font.BOLD, 20));
             FontMetrics metrics = getFontMetrics(g.getFont());
-            g.drawString("Score: " + (snakeLength - 1), (BOARD_WIDTH - metrics.stringWidth("Score: " + (snakeLength - 1))) / 2, g.getFont().getSize());
+            g.drawString("Score: " + (snakeLength - 3), (BOARD_WIDTH - metrics.stringWidth("Score: " + (snakeLength - 3))) / 2, g.getFont().getSize());
         } else {
             gameOver(this);
         }
-    }
-
-    public void placeFood() {
-        foodX = random.nextInt((int) (BOARD_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
-        foodY = random.nextInt((int) (BOARD_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
     }
 
     public void move() {
@@ -147,8 +138,9 @@ class GamePanel2 extends JPanel implements ActionListener {
     }
 
     public void updateHighestScore() {
-        if (snakeLength - 1 > highestScore) {
-            highestScore = snakeLength - 1;
+        if (snakeLength - 3 > highestScore) {
+            highestScore = snakeLength - 3;
+            SnakeGameMainMenu.updateTopScoreLabel(highestScore);
         }
     }
 
@@ -186,7 +178,7 @@ class GamePanel2 extends JPanel implements ActionListener {
         gameOverLabel.setForeground(initialColor);
         centerPanel.add(gameOverLabel);
 
-        JLabel scoreLabel = new JLabel("Your score: " + (snakeLength - 1));
+        JLabel scoreLabel = new JLabel("Your score: " + (snakeLength - 3));
         scoreLabel.setForeground(initialColor);
         centerPanel.add(scoreLabel);
 
