@@ -21,16 +21,20 @@ public class SnakeGameMainMenu implements ActionListener{
         mainFrame.getContentPane().setBackground(Color.BLACK);
         mainFrame.setMinimumSize(new Dimension(400, 400));
 
-        frameIcon(mainFrame);
         frameCenter(mainFrame);
+        frameIcon(mainFrame);
         addComponents();
 
         mainFrame.setVisible(true);
     }
 
     public static void frameIcon(JFrame frame) {
-        Image icon = Toolkit.getDefaultToolkit().getImage("SnakeImages\\SnakeIcon.png");
-        frame.setIconImage(icon);
+        try {
+            Image icon = Toolkit.getDefaultToolkit().getImage(SnakeGameMainMenu.class.getResource("/SnakeImages/SnakeIcon.png"));
+            frame.setIconImage(icon);
+        } catch (Exception e) {
+            System.err.println("Icon image not found.");
+        }
     }
 
     public static void frameCenter(JFrame frame) {
